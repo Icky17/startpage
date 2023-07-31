@@ -59,7 +59,7 @@
         --title-color: #d4a0e7;
         --link-color: #a6adc8;
         --hover-color: #89dceb;
-        --image: url("/img/nagi-1.webp");
+        --image: url("/img/nagi-1.WebP");
       }
 
 * {
