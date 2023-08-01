@@ -1,5 +1,5 @@
 themeRandomizer = () => {
-const theme = ["catppuccin", "gold", "pastel", "alcest", "griffith", "guts"]
+const theme = ["catppuccin"]
 const random = theme[Math.floor(Math.random() * theme.length)]
 return random
 }
