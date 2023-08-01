@@ -2,6 +2,17 @@
 
 
 :root,
+
+    :root.catppuccin {
+        --background-color: #1e1e2e;
+        --header-color: #a6adc8;
+        --status-color: #a6adc8;
+        --title-color: #d4a0e7;
+        --link-color: #a6adc8;
+        --hover-color: #89dceb;
+        --image: url("/img/nagi1.WebP");
+    }
+
     :root.guts {
     --background-color: #060505ff;
     --header-color: #A60E10ff;
@@ -51,16 +62,6 @@
         --hover-color: #433F57;
         --image: url("/img/gold.WebP")
     }
-
-    :root.catppuccin {
-        --background-color: #1e1e2e;
-        --header-color: #a6adc8;
-        --status-color: #a6adc8;
-        --title-color: #d4a0e7;
-        --link-color: #a6adc8;
-        --hover-color: #89dceb;
-        --image: url("/img/nagi1.WebP");
-      }
 
 * {
     padding: 0;
