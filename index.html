@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVA Startpage | Jairo Morales</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image" href="home-3d-icon.webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <div class="image-section">
+                <img src="https://64.media.tumblr.com/fb7cea8e760fc053378f185eda581eaf/7fa1527dfe478b7c-b3/s540x810/67f9d8b008e03e36eaa90257eb92492ddc26f68e.gif" alt="Aesthetic image" id="mainImage">
+            </div>
+        
+
+            <div class="content">
+                <div class="time-display">
+                    <div id="datetime" class="datetime"></div>
+                </div>
+                
+                <div class="terminal-section">
+                    <div class="terminal">
+                        <span class="prompt">→</span>
+                        <input type="text" id="terminalInput" placeholder="search links...">
+                    </div>
+                    <div id="suggestions" class="suggestions"></div>
+                </div>
+                
+                <div class="bookmarks-grid">
+                    <div class="category">
+                        <h3>General</h3>
+                        <div class="links" id="general-links"></div>
+                    </div>
+                    <div class="category">
+                        <h3>Learning</h3>
+                        <div class="links" id="learning-links"></div>
+                    </div>
+                    <div class="category">
+                        <h3>Productivity</h3>
+                        <div class="links" id="productivity-links"></div>
+                    </div>
+                    <div class="category">
+                        <h3>School</h3>
+                        <div class="links" id="school-links"></div>
+                    </div>
+                    <div class="category">
+                        <h3>Utilities</h3>
+                        <div class="links" id="utilities-links"></div>
+                    </div>
+                    <div class="category">
+                        <h3>ZAS</h3>
+                        <div class="links" id="zas-links"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-links">
+        <a href="./pages/pomodoro.html">Pomodoro</a>
+        <a href="./pages/todo.html">Todo List</a>
+        <a href="./pages/binary-game.html">Binary Game</a>
+        <a href="https://jairomorales.ch/networking">Networking</a>
+        <a href="./pages/taskboard.html">Taskboard</a>
+    </nav>
+    
+    <button class="settings-btn" id="settingsBtn">⚙️ Settings</button>
+
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h2>Settings</h2>
+            <button class="close-btn" id="closeBtn">×</button>
+        </div>
+        
+        <div class="settings-section">
+            <h3>
+                Images
+                <button class="add-bookmark-btn" onclick="addImageUrl()">+ Add Image</button>
+            </h3>
+            <div id="imageList" class="image-list"></div>
+        </div>
+
+        <div class="settings-section">
+            <h3>Bookmarks</h3>
+            <div id="bookmarksEditor"></div>
+        </div>
+
+        <div class="settings-section">
+            <h3>Import/Export Settings</h3>
+            <div class="import-export-btns">
+                <button onclick="exportSettings()">Export Settings</button>
+                <button onclick="importSettings()">Import Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="importInput" style="display: none" accept=".json">
+    <script src="main.js"></script>
+</body>
+</html>

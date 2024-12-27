@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image" href="../home-3d-icon.webp">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <div class="pomodoro-container">
+                <h1>Pomodoro Timer</h1>
+                <div class="timer-display">
+                    <span id="minutes">25</span>:<span id="seconds">00</span>
+                </div>
+                <div class="timer-controls">
+                    <button id="startBtn" class="timer-btn">Start</button>
+                    <button id="resetBtn" class="timer-btn">Reset</button>
+                </div>
+                <div class="timer-modes">
+                    <button class="mode-btn active" data-time="25">Pomodoro</button>
+                    <button class="mode-btn" data-time="5">Short Break</button>
+                    <button class="mode-btn" data-time="15">Long Break</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="todo.html">Todo List</a>
+    </nav>
+    <script src="../src/pomodoro.js"></script>
+</body>
+</html>
