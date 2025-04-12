@@ -1,15 +1,15 @@
 :root {
-    --bg-color: #1a1b26;
+    --bg-color: #0A0A0D;
     --text-color: #a9b1d6;
     --accent-color: #7aa2f7;
     --terminal-bg: rgba(36, 40, 59, 0.8);
     --hover-color: #414868;
-    --category-general: #7dcfff;
-    --category-helpdesk: #ff79c6;
-    --category-network: #9ece6a;
-    --category-others: #f7768e;
-    --category-esxiInfra: #eee16b;
-    --category-zas: #6472ec;
+    --category-general: #FEC260;
+    --category-helpdesk: #F85E9F;
+    --category-network: #A2D729;
+    --category-others: #9F87FF;
+    --category-abbts: #316575;
+    --category-kalaidos: #70B7E1;
 }
 
 body {
@@ -150,7 +150,7 @@ body {
 
 .category h3 {
     color: var(--accent-color);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0rem;
     font-size: 1.5rem;
     letter-spacing: 0.1em;
 }
@@ -159,8 +159,8 @@ body {
 .category:nth-child(2) h3 { color: var(--category-helpdesk); }
 .category:nth-child(3) h3 { color: var(--category-network); }
 .category:nth-child(4) h3 { color: var(--category-others); }
-.category:nth-child(5) h3 { color: var(--category-esxiInfra); }
-.category:nth-child(6) h3 { color: var(--category-zas); }
+.category:nth-child(5) h3 { color: var(--category-abbts); }
+.category:nth-child(6) h3 { color: var(--category-kalaidos); }
 
 .links {
     display: flex;
@@ -377,7 +377,44 @@ body {
     background-color: var(--hover-color);
 }
 
-/* Navigation Links */
+/* Navigation styles */
+.nav-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+}
+
+.nav-links a {
+    color: #ccc;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.nav-links a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.nav-links a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-weight: bold;
+}
+
 .nav-links {
     position: fixed;
     bottom: 2rem;
@@ -532,4 +569,44 @@ body {
 
 .todo-item button:hover {
     opacity: 1;
+}
+
+/* Season indicator styles */
+.season-indicator {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Season-specific colors */
+.season-indicator.spring {
+    background-color: rgba(255, 182, 193, 0.7); /* Light pink */
+}
+
+.season-indicator.summer {
+    background-color: rgba(255, 165, 0, 0.7); /* Orange */
+}
+
+.season-indicator.fall {
+    background-color: rgba(165, 42, 42, 0.7); /* Brown */
+}
+
+.season-indicator.winter {
+    background-color: rgba(135, 206, 235, 0.7); /* Sky blue */
+}
+
+.search-suggestion {
+    background-color: rgba(0, 128, 255, 0.2);
+    border-left: 3px solid #0080ff;
+    font-style: italic;
+}
+
+.search-suggestion:hover {
+    background-color: rgba(0, 128, 255, 0.3);
 }

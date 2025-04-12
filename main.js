@@ -1,14 +1,13 @@
 // Initial bookmarks and images data
+let images = [];
 let bookmarks = {
     general: [
         { name: 'ChatGPT', url: 'https://chat.openai.com' },
         { name: 'Claude', url: 'https://claude.ai' },
-        { name: 'Twitter', url: 'https://twitter.com' },
         { name: 'Reddit', url: 'https://www.reddit.com' },
         { name: 'LinkedIn', url: 'https://www.linkedin.com' },
         { name: 'YouTube', url: 'https://www.youtube.com' },
         { name: 'Gmail', url: 'https://mail.google.com' },
-        { name: 'Canva', url: 'https://www.canva.com' },
         { name: 'Proton Drive', url: 'https://drive.proton.me' }
     ],
     learning: [
@@ -18,27 +17,27 @@ let bookmarks = {
         { name: 'W3Schools', url: 'https://www.w3schools.com' },
         { name: 'Explainshell', url: 'https://explainshell.com' },
         { name: 'ArchWiki', url: 'https://wiki.archlinux.org' },
-        { name: 'FreeCodeCamp', url: 'https://www.freecodecamp.org' },
         { name: 'NetAcad', url: 'https://www.netacad.com' }
     ],
     productivity: [
         { name: 'TasksBoard', url: 'https://tasksboard.com/app' },
         { name: 'Flocus', url: 'https://app.flocus.com/' },
         { name: 'IDX Dev', url: 'https://idx.dev/' },
-
     ],
     school: [
         { name: 'BBBaden', url: 'https://www.bbbaden.ch/' },
         { name: 'Moodle', url: 'https://moodle.bbbaden.ch/' },
-        { name: 'NetAcad', url: 'https://www.netacad.com' },
         { name: 'OneDrive (BBBaden)', url: 'https://bbbaden-my.sharepoint.com/' },
         { name: 'OneNote (BBBaden)', url: 'https://bbbaden-my.sharepoint.com/:o:/g/personal/daniel_wuest_bbbaden_ch/Ei3c8fUbXC9PqoFVdyMp3VYBFkYXVmg2eo4NEkYZpVkOoA?e=PxdD24' },
-        { name: 'Outlook', url: 'https://outlook.office.com/mail/' }
-    ],
-    utilities: [
+        { name: 'Outlook', url: 'https://outlook.office.com/mail/' },
         { name: 'MonkeyType', url: 'https://monkeytype.com' },
-        { name: 'Proton Drive', url: 'https://drive.proton.me' },
-        { name: 'Canva', url: 'https://www.canva.com' }
+        { name: 'Proton Drive', url: 'https://drive.proton.me' }
+    ],
+    abbts: [
+        { name: 'test', url: 'https://www.helloworld.org/' }
+    ],
+    kalaidos: [
+        { name: 'test', url: 'https://www.helloworld.org/' }
     ]
 };
 
@@ -186,6 +185,40 @@ function handleTerminalInput(e) {
         return;
     }
 
+    // Check for search aliases
+    const searchAliases = {
+        'g ': 'https://www.google.com/search?q=',
+        'd ': 'https://duckduckgo.com/?q=',
+        'gh ': 'https://github.com/search?q=',
+        's ': 'https://stackoverflow.com/search?q=',
+        'r ': 'https://www.reddit.com/search/?q=',
+        'w ': 'https://en.wikipedia.org/wiki/Special:Search?search='
+    };
+
+    // Check if query starts with any search alias
+    for (const [prefix, searchUrl] of Object.entries(searchAliases)) {
+        if (query.startsWith(prefix)) {
+            // Show search suggestion
+            const searchTerm = query.substring(prefix.length);
+            if (searchTerm) {
+                suggestions.innerHTML = `<div class="suggestion search-suggestion" data-url="${searchUrl}${encodeURIComponent(searchTerm)}">
+                    Search ${getSearchEngineName(prefix)}: ${searchTerm}
+                </div>`;
+                suggestions.style.display = 'block';
+                
+                const searchSuggestion = suggestions.querySelector('.search-suggestion');
+                searchSuggestion?.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    window.open(searchSuggestion.dataset.url, '_blank');
+                    terminalInput.value = '';
+                    suggestions.style.display = 'none';
+                });
+                return;
+            }
+        }
+    }
+
+    // Regular bookmark search if no search alias is used
     const matches = [];
     Object.values(bookmarks).forEach(category => {
         category.forEach(bookmark => {
@@ -216,13 +249,53 @@ function handleTerminalInput(e) {
     }
 }
 
+function getSearchEngineName(prefix) {
+    switch(prefix.trim()) {
+        case 'g': return 'Google';
+        case 'd': return 'DuckDuckGo';
+        case 'gh': return 'GitHub';
+        case 's': return 'Stack Overflow';
+        case 'r': return 'Reddit';
+        case 'w': return 'Wikipedia';
+        default: return 'Search';
+    }
+}
+
 function handleTerminalKeydown(e) {
-    if (e.key === 'Enter' && suggestions.style.display === 'block') {
-        const firstSuggestion = suggestions.querySelector('.suggestion');
-        if (firstSuggestion) {
-            window.open(firstSuggestion.dataset.url, '_blank');
-            e.target.value = '';
-            suggestions.style.display = 'none';
+    if (e.key === 'Enter') {
+        const query = e.target.value.toLowerCase();
+        
+        // Check for search aliases
+        const searchAliases = {
+            'g ': 'https://www.google.com/search?q=',
+            'd ': 'https://duckduckgo.com/?q=',
+            'gh ': 'https://github.com/search?q=',
+            's ': 'https://stackoverflow.com/search?q=',
+            'r ': 'https://www.reddit.com/search/?q=',
+            'w ': 'https://en.wikipedia.org/wiki/Special:Search?search='
+        };
+
+        // Check if query starts with any search alias
+        for (const [prefix, searchUrl] of Object.entries(searchAliases)) {
+            if (query.startsWith(prefix)) {
+                const searchTerm = query.substring(prefix.length);
+                if (searchTerm) {
+                    window.open(searchUrl + encodeURIComponent(searchTerm), '_blank');
+                    e.target.value = '';
+                    suggestions.style.display = 'none';
+                    return;
+                }
+            }
+        }
+        
+        // If no search alias or if suggestions are displayed, use the first suggestion
+        if (suggestions.style.display === 'block') {
+            const firstSuggestion = suggestions.querySelector('.suggestion');
+            if (firstSuggestion) {
+                window.open(firstSuggestion.dataset.url, '_blank');
+                e.target.value = '';
+                suggestions.style.display = 'none';
+            }
         }
     }
 }
@@ -373,3 +446,131 @@ function init() {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', init);
+
+
+
+// Determine current season and set appropriate GIF
+function updateSeasonalGif() {
+    const date = new Date();
+    const month = date.getMonth(); // 0-11 (Jan-Dec)
+    
+    let season;
+    let gifPath;
+    
+    // Determine season based on month
+    // Northern hemisphere seasons
+    if (month >= 2 && month <= 4) {
+        // Spring: March, April, May
+        season = "Spring";
+        gifPath = "./img/gif/japan-chill-sakura2.gif"; // Cherry blossoms for spring
+    } else if (month >= 5 && month <= 7) {
+        // Summer: June, July, August
+        season = "Summer";
+        gifPath = "./img/gif/japan-chill-summer.webp"; // Placeholder - create or find a summer-themed GIF
+    } else if (month >= 8 && month <= 10) {
+        // Fall: September, October, November
+        season = "Fall";
+        gifPath = "./img/gif/japan-chill-autumn.gif"; // Placeholder - create or find a fall-themed GIF
+    } else {
+        // Winter: December, January, February
+        season = "Winter";
+        gifPath = "./img/gif/japan-chill-winter.gif"; // Placeholder - create or find a winter-themed GIF
+    }
+    
+    // Update the GIF
+    document.getElementById('mainImage').src = gifPath;
+    
+    // Update season indicator
+    const seasonIndicator = document.getElementById('seasonIndicator');
+    seasonIndicator.textContent = season;
+    seasonIndicator.className = 'season-indicator ' + season.toLowerCase();
+    
+    // Store the current season in localStorage for settings
+    localStorage.setItem('currentSeason', season);
+}
+
+// Add this to your initialization code
+document.addEventListener('DOMContentLoaded', function() {
+    // Existing initialization code...
+    
+    // Update seasonal GIF
+    updateSeasonalGif();
+    
+    // Highlight current page in navigation
+    highlightCurrentPage();
+    
+    // Rest of your initialization code...
+});
+
+
+// Function to test different seasons
+function testSeason(seasonName) {
+    let gifPath;
+    
+    // Set GIF based on season name
+    switch(seasonName.toLowerCase()) {
+        case 'spring':
+            gifPath = "./img/gif/japan-chill-sakura2.gif";
+            break;
+        case 'summer':
+            gifPath = "./img/gif/japan-chill-summer.webp";
+            break;
+        case 'fall':
+        case 'autumn':
+            gifPath = "./img/gif/japan-chill-autumn.gif";
+            break;
+        case 'winter':
+            gifPath = "./img/gif/japan-chill-winter.gif";
+            break;
+        default:
+            console.error('Invalid season name. Use: spring, summer, fall/autumn, or winter');
+            return;
+    }
+    
+    // Update the GIF
+    document.getElementById('mainImage').src = gifPath;
+    
+    // Update season indicator
+    const seasonIndicator = document.getElementById('seasonIndicator');
+    seasonIndicator.textContent = seasonName.charAt(0).toUpperCase() + seasonName.slice(1);
+    seasonIndicator.className = 'season-indicator ' + seasonName.toLowerCase();
+    
+    console.log(`Switched to ${seasonName} theme`);
+}
+
+// Make sure the updateSeasonalGif function is defined as mentioned in the previous message
+// If not already added, add it here
+
+// Function to highlight the current page in navigation
+function highlightCurrentPage() {
+    // Get the current page filename
+    const currentPage = window.location.pathname.split('/').pop();
+    
+    // Get all navigation links
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    // Remove active class from all links
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // Add active class to current page link
+    navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href').split('/').pop();
+        if (currentPage === linkPage || 
+            (currentPage === '' && linkPage === 'index.html') || 
+            (currentPage === 'index.html' && linkPage === 'index.html')) {
+            link.classList.add('active');
+        }
+    });
+}
+
+// Call this function when the DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Your existing initialization code...
+    
+    // Highlight current page in navigation
+    highlightCurrentPage();
+    
+    // Rest of your initialization code...
+});
