@@ -6,7 +6,44 @@
     <title>Pomodoro Timer</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="icon" type="image" href="../home-3d-icon.webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Inline-Styles für wichtige Komponenten */
+        .timer-display {
+            font-size: 6rem;
+            font-weight: bold;
+            margin: 2rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-color);
+        }
+        .timer-btn {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin: 0 0.5rem;
+            transition: opacity 0.2s ease;
+        }
+        .mode-btn {
+            background: none;
+            border: 1px solid var(--accent-color);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .mode-btn.active {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -31,11 +68,90 @@
     <nav class="nav-links">
         <a href="../index.html">Home</a>
         <a href="pomodoro.html">Pomodoro</a>
-        <a href="todo.html">Todo List</a>
+        <a href="todo.html">To-Do</a>
         <a href="binary-game.html">Binary Game</a>
         <a href="https://jairomorales.ch/networking">Networking</a>
-        <a href="taskboard.html">Taskboard</a>
     </nav>
-    <script src="../src/pomodoro.js"></script>
+    
+    <!-- Inline-Skript für den Pomodoro Timer -->
+    <script>
+        // Pomodoro Timer Variablen
+        let timeLeft = 45 * 60; // 25 Minuten in Sekunden
+        let timerId = null;
+        let isRunning = false;
+
+        // DOM-Elemente
+        const minutesDisplay = document.getElementById('minutes');
+        const secondsDisplay = document.getElementById('seconds');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const modeBtns = document.querySelectorAll('.mode-btn');
+
+        // Anzeige aktualisieren
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            minutesDisplay.textContent = minutes.toString().padStart(2, '0');
+            secondsDisplay.textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Timer starten/pausieren
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                startBtn.textContent = 'Pause';
+                timerId = setInterval(() => {
+                    timeLeft--;
+                    updateDisplay();
+                    if (timeLeft === 0) {
+                        clearInterval(timerId);
+                        isRunning = false;
+                        startBtn.textContent = 'Start';
+                        // Alarm abspielen
+                        try {
+                            new Audio('data:audio/wav;base64,//uQRAAAAWMSLwUIYAAsYkXgoQwAEaYLWfkWgAI0wWs/ItAAAGDgYtAgAyN+QWaAAihwMWm4G8QQRDiMcCBcH3Cc+CDv/7xA4Tvh9Rz/y8QADBwMWgQAZG/ILNAARQ4GLTcDeIIIhxGOBAuD7hOfBB3/94gcJ3w+o5/5eIAIAAAVwWgQAVQ2ORaIQwEMAJiDg95G4nQL7mQVWI6GwRcfsZAcsKkJvxgxEjzFUgfHoSQ9Qq7KNwqHwuB13MA4a1q/DmBrHgPcmjiGoh//EwC5nGPEmS4RcfkVKOhJf+WOgoxJclFz3kgn//dBA+ya1GhurNn8zb//9NNutNuhz31f////9vt///z+IdAEAAAK4LQIAKobHItEIYCGAExBwe8jcToF9zIKrEdDYIuP2MgOWFSE34wYiR5iqQPj0JIeoVdlG4VD4XA67mAcNa1fhzA1jwHuTRxDUQ//iYBczjHiTJcIuPyKlHQkv/LHQUYkuSi57yQT//uggfZNajQ3Vmz+Zt//+mm3Wm3Q576v////+32///5/EOgAAADVghQAAAAA==').play();
+                        } catch (e) {
+                            console.error("Alarm konnte nicht abgespielt werden:", e);
+                        }
+                    }
+                }, 1000);
+            } else {
+                clearInterval(timerId);
+                isRunning = false;
+                startBtn.textContent = 'Start';
+            }
+        }
+
+        // Timer zurücksetzen
+        function resetTimer() {
+            clearInterval(timerId);
+            isRunning = false;
+            startBtn.textContent = 'Start';
+            const activeMode = document.querySelector('.mode-btn.active');
+            if (activeMode) {
+                timeLeft = parseInt(activeMode.dataset.time) * 60;
+            } else {
+                timeLeft = 45 * 60; // Standard: 25 Minuten
+            }
+            updateDisplay();
+        }
+
+        // Event-Listener hinzufügen
+        document.addEventListener('DOMContentLoaded', () => {
+            startBtn.addEventListener('click', startTimer);
+            resetBtn.addEventListener('click', resetTimer);
+            modeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modeBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    timeLeft = parseInt(btn.dataset.time) * 60;
+                    resetTimer();
+                });
+            });
+            
+            // Initial-Anzeige aktualisieren
+            updateDisplay();
+        });
+    </script>
 </body>
 </html>

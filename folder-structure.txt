@@ -1,0 +1,24 @@
+│
+├── index.html
+├── main.js
+├── style.css
+│
+├── src/
+│   ├── pomodoro.js
+│   └── todo.js
+│
+├── pages/
+│   ├── binary-game.html
+│   ├── todo.html
+│   └── pomodoro.html
+│
+├── img/
+│   ├── gif/
+│   │   ├── japan-chill-sakura2.gif
+│   │   ├── japan-chill-summer.webp
+│   │   ├── japan-chill-autumn.gif
+│   │   └── japan-chill-winter.gif
+│   │
+│   └── (andere Bilder)
+│
+└── (andere Dateien und Ordner)

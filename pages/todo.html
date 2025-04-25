@@ -3,32 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List</title>
+    <title>To-Do | Jairo Morales</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="icon" type="image" href="../home-3d-icon.webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .todo-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--terminal-bg);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .todoist-card {
+            background-color: rgba(36, 40, 59, 0.7);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .todoist-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .todoist-logo {
+            width: 120px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .todoist-btn {
+            display: inline-block;
+            background-color: #E44332;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'IBM Plex Mono', monospace;
+            margin-top: 1rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .todoist-btn:hover {
+            background-color: #d13a2a;
+            transform: scale(1.05);
+        }
+        
+        .todoist-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+        
+        .feature-card {
+            background-color: rgba(36, 40, 59, 0.5);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+        
+        .feature-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="main-content">
             <div class="todo-container">
-                <h1>Todo List</h1>
-                <div class="todo-input">
-                    <input type="text" id="todoInput" placeholder="Add a new task...">
-                    <button id="addTodoBtn">Add</button>
+                <h1 style="text-align: center; color: var(--accent-color);">To-Do</h1>
+                <p style="text-align: center; color: var(--text-color);">
+                    Organisiere deine Aufgaben mit Todoist
+                </p>
+                
+                <div class="todoist-card">
+                    <img src="../img/todoist.svg" alt="Todoist Logo" class="todoist-logo">
+                    <h2>Todoist - Die beste Aufgabenverwaltungs-App</h2>
+                    <p>Verwalte deine Aufgaben, koordiniere Projekte und erreiche mehr - jederzeit und überall.</p>
+                    <a href="https://todoist.com/app" target="_blank" class="todoist-btn">Öffne Todoist</a>
                 </div>
-                <div class="todo-list" id="todoList"></div>
+                    
+                </div>
             </div>
         </div>
     </div>
+    
     <nav class="nav-links">
         <a href="../index.html">Home</a>
         <a href="pomodoro.html">Pomodoro</a>
-        <a href="todo.html">Todo List</a>
+        <a href="todo.html">To-Do</a>
         <a href="binary-game.html">Binary Game</a>
         <a href="https://jairomorales.ch/networking">Networking</a>
-        <a href="taskboard.html">Taskboard</a>
     </nav>
-    <script src="../src/todo.js"></script>
 </body>
 </html>

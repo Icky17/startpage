@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskboard</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image" href="../home-3d-icon.webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .taskboard-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--terminal-bg);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .todoist-embed {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tab {
+            padding: 0.5rem 1rem;
+            background-color: var(--hover-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .tab:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+        }
+        
+        .tab.active {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .setup-info {
+            padding: 1rem;
+            background-color: rgba(36, 40, 59, 0.5);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .setup-info h3 {
+            margin-top: 0;
+        }
+        
+        .setup-info ol {
+            margin-left: 1.5rem;
+        }
+        
+        .setup-info a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .setup-info a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <div class="taskboard-container">
+                <h1 style="text-align: center; color: var(--accent-color);">Taskboard</h1>
+                <p style="text-align: center; color: var(--text-color);">
+                    Organisiere deine Aufgaben mit Todoist
+                </p>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('todoist')">Todoist</div>
+                    <div class="tab" onclick="switchTab('setup')">Setup-Anleitung</div>
+                </div>
+                
+                <div id="todoist-tab" class="tab-content active">
+                    <!-- Todoist Einbettung -->
+                    <iframe src="https://todoist.com/app/today" class="todoist-embed" allowtransparency="true"></iframe>
+                </div>
+                
+                <div id="setup-tab" class="tab-content">
+                    <div class="setup-info">
+                        <h3>Todoist einrichten:</h3>
+                        <ol>
+                            <li>Erstelle ein kostenloses <a href="https://todoist.com/auth/signup" target="_blank">Todoist-Konto</a>, falls du noch keines hast</li>
+                            <li>Melde dich bei Todoist an (der iFrame oben führt dich zum Login)</li>
+                            <li>Nach der Anmeldung kannst du Aufgaben erstellen, organisieren und verwalten</li>
+                            <li>Die kostenlose Version bietet bereits viele nützliche Funktionen:</li>
+                            <ul>
+                                <li>Bis zu 5 aktive Projekte</li>
+                                <li>Bis zu 5 Personen pro Projekt</li>
+                                <li>Aufgaben, Unteraufgaben und Abschnitte</li>
+                                <li>Prioritäten und Fälligkeitstermine</li>
+                                <li>Synchronisierung über Web, Mobilgeräte und Desktop</li>
+                            </ul>
+                        </ol>
+                        
+                        <h3>Alternative Task-Manager:</h3>
+                        <ul>
+                            <li><a href="https://ticktick.com/" target="_blank">TickTick</a> - Umfangreichere kostenlose Version</li>
+                            <li><a href="https://app.clickup.com/" target="_blank">ClickUp</a> - Für komplexere Projektmanagement-Bedürfnisse</li>
+                            <li><a href="https://www.notion.so/" target="_blank">Notion</a> - Kombiniert Notizen und Aufgabenverwaltung</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="pomodoro.html">Pomodoro</a>
+        <a href="todo.html">Todo List</a>
+        <a href="binary-game.html">Binary Game</a>
+        <a href="https://jairomorales.ch/networking">Networking</a>
+        <a href="taskboard.html">Taskboard</a>
+    </nav>
+    
+    <script>
+        function switchTab(tabName) {
+            // Alle Tabs deaktivieren
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Alle Tab-Inhalte ausblenden
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Gewählten Tab aktivieren
+            document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+    </script>
+</body>
+</html>
