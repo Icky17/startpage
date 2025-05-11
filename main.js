@@ -23,7 +23,7 @@ let bookmarks = {
     productivity: [
         { name: 'TasksBoard', url: 'https://tasksboard.com/app' },
         { name: 'Flocus', url: 'https://app.flocus.com/' },
-        { name: 'IDX Dev', url: 'https://idx.dev/' },
+        { name: 'Firebase Studio', url: 'https://studio.firebase.google.com/' },
     ],
     school: [
         { name: 'BBBaden', url: 'https://www.bbbaden.ch/' },
