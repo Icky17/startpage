@@ -1,4 +1,4 @@
-// Initial bookmarks und images data
+// Initial bookmarks and images data
 let images = [];
 let bookmarks = {
     general: [
@@ -8,7 +8,7 @@ let bookmarks = {
         { name: 'LinkedIn', url: 'https://www.linkedin.com' },
         { name: 'YouTube', url: 'https://www.youtube.com' },
         { name: 'Gmail', url: 'https://mail.google.com' },
-        { name: 'Gmail2', url: 'https://mail2.google.com' },
+        { name: 'Calendar', url: 'https://calendar.proton.me/u/2/' },
         { name: 'Proton Drive', url: 'https://drive.proton.me' }
     ],
     learning: [
@@ -18,20 +18,20 @@ let bookmarks = {
         { name: 'W3Schools', url: 'https://www.w3schools.com' },
         { name: 'Explainshell', url: 'https://explainshell.com' },
         { name: 'ArchWiki', url: 'https://wiki.archlinux.org' },
-        { name: 'NetAcad', url: 'https://www.netacad.com' }
+        { name: 'NetAcad', url: 'https://www.netacad.com' },
+        { name: 'MonkeyType', url: 'https://monkeytype.com' }
     ],
     productivity: [
-        { name: 'TasksBoard', url: 'https://tasksboard.com/app' },
+        { name: 'Todoist', url: 'https://app.todoist.com/app' },
         { name: 'Flocus', url: 'https://app.flocus.com/' },
         { name: 'Firebase Studio', url: 'https://studio.firebase.google.com/' },
     ],
-    school: [
+    others: [
         { name: 'BBBaden', url: 'https://www.bbbaden.ch/' },
         { name: 'Moodle', url: 'https://moodle.bbbaden.ch/' },
         { name: 'OneDrive (BBBaden)', url: 'https://bbbaden-my.sharepoint.com/' },
         { name: 'OneNote (BBBaden)', url: 'https://bbbaden-my.sharepoint.com/:o:/g/personal/daniel_wuest_bbbaden_ch/Ei3c8fUbXC9PqoFVdyMp3VYBFkYXVmg2eo4NEkYZpVkOoA?e=PxdD24' },
         { name: 'Outlook', url: 'https://outlook.office.com/mail/' },
-        { name: 'MonkeyType', url: 'https://monkeytype.com' },
         { name: 'Proton Drive', url: 'https://drive.proton.me' }
     ],
     abbts: [
@@ -42,7 +42,7 @@ let bookmarks = {
     ]
 };
 
-// Standard Bildpfade für den Fall, dass keine im LocalStorage existieren
+// Default image paths if none exist in LocalStorage
 const defaultImages = [
     "./img/gif/japan-chill-sakura2.gif",
     "./img/gif/japan-chill-summer.webp",
@@ -50,13 +50,13 @@ const defaultImages = [
     "./img/gif/japan-chill-winter.gif"
 ];
 
-// DOM Elemente cachen
-let settingsBtn, settingsPanel, overlay, closeBtn, mainImage, importInput, terminalInput, 
+// Cache DOM elements
+let settingsBtn, settingsPanel, overlay, closeBtn, mainImage, importInput, terminalInput,
     suggestions, dateTimeElement, seasonIndicator;
 
 // DOM ready event listener
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM Elemente initialisieren
+    // Initialize DOM elements
     settingsBtn = document.getElementById('settingsBtn');
     settingsPanel = document.getElementById('settingsPanel');
     overlay = document.getElementById('overlay');
@@ -68,67 +68,54 @@ document.addEventListener('DOMContentLoaded', () => {
     dateTimeElement = document.getElementById('datetime');
     seasonIndicator = document.getElementById('seasonIndicator');
 
-    // Event-Listener für Bilder-Fehler hinzufügen
-    if (mainImage) {
-        mainImage.addEventListener('error', handleImageError);
-    }
-
-    // Event-Listener für Settings-Panel
+    // Add event listeners
+    if (mainImage) mainImage.addEventListener('error', handleImageError);
     if (settingsBtn) settingsBtn.addEventListener('click', openSettings);
     if (closeBtn) closeBtn.addEventListener('click', closeSettings);
     if (overlay) overlay.addEventListener('click', closeSettings);
     if (importInput) importInput.addEventListener('change', handleImport);
 
-    // Initialisierung starten
+    // Initialize application
     init();
-    
-    // Terminal-Funktionalität aktivieren
     setupTerminal();
 });
 
-// Seiten-Initialisierung
+// Initialize page
 function init() {
     loadSettings();
     renderBookmarks();
     updateDateTime();
     setInterval(updateDateTime, 1000);
-    
-    // Prüfen ob Bilder vorhanden sind
+
+    // Use default images if none exist
     if (!images || images.length === 0) {
-        images = [...defaultImages]; // Default-Bilder verwenden
+        images = [...defaultImages];
         saveSettings();
     }
-    
-    // Je nach Saison ein Bild wählen
+
     updateSeasonalGif();
-    
-    // Aktuelle Seite in Navigation hervorheben
     highlightCurrentPage();
 }
 
-// Fehlerbehandlung für Bilder
+// Handle image loading errors
 function handleImageError() {
-    console.log("Bild konnte nicht geladen werden, versuche Fallback...");
-    
-    // Fallback-Strategie 1: Versuche ohne führenden Punkt
     let currentSrc = mainImage.src;
+
+    // Try without leading dot
     if (currentSrc.includes('./')) {
         mainImage.src = currentSrc.replace('./', '/');
         return;
     }
-    
-    // Fallback-Strategie 2: Verwende ein zufälliges Bild
+
+    // Use random fallback image
     let fallbackImages = [...defaultImages];
-    
-    // Zusätzlich absolute Pfade hinzufügen
     fallbackImages = fallbackImages.concat(defaultImages.map(img => img.replace('./', '/')));
-    
-    // Zufälliges Bild wählen
+
     const randomIndex = Math.floor(Math.random() * fallbackImages.length);
     mainImage.src = fallbackImages[randomIndex];
 }
 
-// Settings Panel-Funktionen
+// Settings panel functions
 function openSettings() {
     if (!settingsPanel || !overlay) return;
     settingsPanel.classList.add('active');
@@ -143,7 +130,7 @@ function closeSettings() {
     overlay.classList.remove('active');
 }
 
-// Bookmark-Verwaltung
+// Bookmark management
 function renderBookmarks() {
     Object.keys(bookmarks).forEach(category => {
         const container = document.getElementById(`${category}-links`);
@@ -201,7 +188,7 @@ window.addBookmark = function(category) {
     renderBookmarksEditor();
 };
 
-// Bild-Verwaltung
+// Image management
 function renderImageList() {
     const imageList = document.getElementById('imageList');
     if (!imageList) return;
@@ -240,29 +227,17 @@ window.addImageUrl = function() {
     }
 };
 
-// Terminal-Funktionalität
+// Terminal functionality
 function setupTerminal() {
-    console.log("Terminal-Setup wird ausgeführt...");
-    
-    if (!terminalInput || !suggestions) {
-        console.error("Terminal-Elemente nicht gefunden!");
-        return;
-    }
-    
-    console.log("Terminal-Elemente gefunden, füge Event-Listener hinzu");
-    
-    // Input-Event-Listener für Live-Suche
+    if (!terminalInput || !suggestions) return;
+
     terminalInput.addEventListener('input', handleTerminalInput);
-    
-    // Keydown-Event-Listener für Enter-Taste
     terminalInput.addEventListener('keydown', handleTerminalKeydown);
-    
-    // Klick außerhalb des Terminals schließt Vorschläge
-    document.addEventListener('click', function() {
+
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', () => {
         suggestions.style.display = 'none';
     });
-    
-    console.log("Terminal-Setup abgeschlossen");
 }
 
 function handleTerminalInput(e) {
@@ -273,7 +248,7 @@ function handleTerminalInput(e) {
         return;
     }
 
-    // Such-Aliase überprüfen
+    // Check search aliases
     const searchAliases = {
         'g ': 'https://www.google.com/search?q=',
         'd ': 'https://duckduckgo.com/?q=',
@@ -283,7 +258,7 @@ function handleTerminalInput(e) {
         'w ': 'https://en.wikipedia.org/wiki/Special:Search?search='
     };
 
-    // Prüfen ob die Anfrage mit einem Such-Alias beginnt
+    // Check if query starts with search alias
     for (const [prefix, searchUrl] of Object.entries(searchAliases)) {
         if (query.startsWith(prefix)) {
             const searchTerm = query.substring(prefix.length);
@@ -307,10 +282,8 @@ function handleTerminalInput(e) {
         }
     }
 
-    // Lesezeichen durchsuchen, wenn kein Such-Alias verwendet wird
+    // Search bookmarks if no search alias used
     let matches = [];
-    
-    // Alle Lesezeichen durchsuchen
     Object.values(bookmarks).forEach(category => {
         category.forEach(bookmark => {
             if (bookmark.name.toLowerCase().includes(query) || 
@@ -355,8 +328,7 @@ function getSearchEngineName(prefix) {
 function handleTerminalKeydown(e) {
     if (e.key === 'Enter') {
         const query = terminalInput.value.toLowerCase();
-        
-        // Such-Aliase überprüfen
+
         const searchAliases = {
             'g ': 'https://www.google.com/search?q=',
             'd ': 'https://duckduckgo.com/?q=',
@@ -366,7 +338,6 @@ function handleTerminalKeydown(e) {
             'w ': 'https://en.wikipedia.org/wiki/Special:Search?search='
         };
 
-        // Prüfen ob die Anfrage mit einem Such-Alias beginnt
         for (const [prefix, searchUrl] of Object.entries(searchAliases)) {
             if (query.startsWith(prefix)) {
                 const searchTerm = query.substring(prefix.length);
@@ -379,7 +350,7 @@ function handleTerminalKeydown(e) {
             }
         }
         
-        // Wenn kein Such-Alias oder wenn Vorschläge angezeigt werden, den ersten Vorschlag verwenden
+        // Use first suggestion if available
         if (suggestions.style.display === 'block') {
             const firstSuggestion = suggestions.querySelector('.suggestion');
             if (firstSuggestion) {
@@ -391,7 +362,7 @@ function handleTerminalKeydown(e) {
     }
 }
 
-// Datum und Uhrzeit-Funktionen
+// Date and time functions
 function updateDateTime() {
     if (!dateTimeElement) return;
     
@@ -407,7 +378,7 @@ function updateDateTime() {
     dateTimeElement.textContent = now.toLocaleDateString('en-US', options).toUpperCase();
 }
 
-// Zufälliges Bild setzen
+// Set random image
 function setRandomImage() {
     if (!mainImage || !images.length) return;
     
@@ -417,67 +388,62 @@ function setRandomImage() {
 
 // Determine current season and set appropriate GIF
 function updateSeasonalGif() {
-    if (!mainImage) return;
-    
+    if (!mainImage) {
+        console.warn("mainImage element not found");
+        return;
+    }
+
     const date = new Date();
-    const month = date.getMonth(); // 0-11 (Jan-Dec)
-    
+    const month = date.getMonth(); // 0-11 (Jan-Dec: 0=Jan, 1=Feb, ..., 11=Dec)
+    const day = date.getDate();
+
     let season;
     let gifPath;
-    
-    // Determine season based on month
-    // Northern hemisphere seasons
-    if (month >= 2 && month <= 4) {
-        // Spring: March, April, May
+
+    // Determine season based on meteorological seasons
+    // Using more accurate seasonal boundaries
+    if (month === 2 || month === 3 || month === 4) {
+        // Spring: March (2), April (3), May (4)
         season = "Spring";
-        gifPath = "./img/gif/japan-chill-sakura2.gif"; // Cherry blossoms for spring
-    } else if (month >= 5 && month <= 7) {
-        // Summer: June, July, August
+        gifPath = "./img/gif/japan-chill-sakura2.gif";
+    } else if (month === 5 || month === 6 || month === 7) {
+        // Summer: June (5), July (6), August (7)
         season = "Summer";
-        gifPath = "./img/gif/japan-chill-summer.webp"; // Summer themed GIF
-    } else if (month >= 8 && month <= 10) {
-        // Fall: September, October, November
+        gifPath = "./img/gif/japan-chill-summer.webp";
+    } else if (month === 8 || month === 9 || month === 10) {
+        // Fall: September (8), October (9), November (10)
         season = "Fall";
-        gifPath = "./img/gif/japan-chill-autumn.gif"; // Fall themed GIF
+        gifPath = "./img/gif/japan-chill-autumn.gif";
     } else {
-        // Winter: December, January, February
+        // Winter: December (11), January (0), February (1)
         season = "Winter";
-        gifPath = "./img/gif/japan-chill-winter.gif"; // Winter themed GIF
+        gifPath = "./img/gif/japan-chill-winter.gif";
     }
-    
-    // Update the GIF with error handling
+
+    console.log(`Detected season: ${season} (month: ${month}, day: ${day})`);
+
+    // Update the GIF
     mainImage.src = gifPath;
-    
-    // Add error handling for the image
     mainImage.onerror = function() {
         console.error("Failed to load seasonal GIF:", gifPath);
-        // Try with absolute path if relative path fails
-        mainImage.src = gifPath.replace('./', '/');
-        
-        // If that still fails, try a fallback
+        const altPath = gifPath.replace('./', '/');
+        mainImage.src = altPath;
         mainImage.onerror = function() {
-            console.error("Failed to load seasonal GIF with absolute path, trying fallback");
+            console.error("Failed to load seasonal GIF with absolute path");
             setRandomImage();
         };
     };
-    
-    // Update season indicator with error handling
+
+    // Update season indicator
     if (seasonIndicator) {
         seasonIndicator.textContent = season;
         seasonIndicator.className = 'season-indicator ' + season.toLowerCase();
+        console.log(`Season indicator updated: ${season}`);
     } else {
         console.warn("Season indicator element not found");
     }
-    
-    // Store the current season in localStorage for settings
-    try {
-        localStorage.setItem('currentSeason', season);
-    } catch (error) {
-        console.warn("Could not save season to localStorage:", error);
-    }
-    
-    console.log("Season updated to:", season);
-    return { season, gifPath }; // Return for potential use elsewhere
+
+    return { season, gifPath };
 }
 
 // Function to test different seasons
@@ -523,59 +489,115 @@ function testSeason(seasonName) {
     console.log(`Switched to ${seasonName} theme`);
 }
 
-// Einstellungen laden/speichern
+// Load/save settings
 function loadSettings() {
     try {
-        console.log("Versuche Einstellungen zu laden...");
         const savedSettings = localStorage.getItem('startpageSettings');
-        
+        const SETTINGS_VERSION = '2.0'; // Increment this to force reset
+
         if (savedSettings) {
-            console.log("Gespeicherte Einstellungen gefunden");
             const settings = JSON.parse(savedSettings);
-            
-            // Lesezeichen laden, falls vorhanden
+
+            // Check version and reset if outdated or corrupted
+            if (settings.version !== SETTINGS_VERSION) {
+                console.log('Settings version mismatch or outdated, resetting to defaults');
+                resetToDefaults();
+                return;
+            }
+
             if (settings.bookmarks) {
-                console.log("Lesezeichen in den Einstellungen gefunden");
                 bookmarks = settings.bookmarks;
             } else {
-                console.log("Keine Lesezeichen gefunden, verwende Standard-Lesezeichen");
-                // Setze Standard-Lesezeichen
-                localStorage.setItem('startpageSettings', JSON.stringify({ bookmarks, images }));
+                resetToDefaults();
+                return;
             }
-            
-            // Bilder laden, falls vorhanden
+
             if (settings.images && settings.images.length > 0) {
                 images = settings.images;
             } else {
-                // Standardbilder verwenden, wenn keine gespeichert sind
                 images = [...defaultImages];
                 saveSettings();
             }
         } else {
-            console.log("Keine gespeicherten Einstellungen gefunden, verwende Standards");
-            // Wenn keine Einstellungen vorhanden sind, Standard-Werte setzen und speichern
-            saveSettings();
+            resetToDefaults();
         }
     } catch (error) {
-        console.error("Fehler beim Laden der Einstellungen:", error);
-        // Standardwerte verwenden
-        images = [...defaultImages];
-        saveSettings();
+        console.error("Error loading settings:", error);
+        resetToDefaults();
     }
-    
-    // Debugging: Zeige geladene Lesezeichen in der Konsole
-    console.log("Geladene Lesezeichen:", Object.keys(bookmarks).map(k => `${k}: ${bookmarks[k].length}`));
+}
+
+function resetToDefaults() {
+    // Reset to default bookmarks
+    bookmarks = {
+        general: [
+            { name: 'ChatGPT', url: 'https://chat.openai.com' },
+            { name: 'Claude', url: 'https://claude.ai' },
+            { name: 'Reddit', url: 'https://www.reddit.com' },
+            { name: 'LinkedIn', url: 'https://www.linkedin.com' },
+            { name: 'YouTube', url: 'https://www.youtube.com' },
+            { name: 'Gmail', url: 'https://mail.google.com' },
+            { name: 'Calendar', url: 'https://calendar.proton.me/u/2/' },
+            { name: 'Proton Drive', url: 'https://drive.proton.me' }
+        ],
+        learning: [
+            { name: 'Roadmap.sh', url: 'https://roadmap.sh' },
+            { name: 'GitHub', url: 'https://github.com' },
+            { name: 'Udemy', url: 'https://www.udemy.com' },
+            { name: 'W3Schools', url: 'https://www.w3schools.com' },
+            { name: 'Explainshell', url: 'https://explainshell.com' },
+            { name: 'ArchWiki', url: 'https://wiki.archlinux.org' },
+            { name: 'NetAcad', url: 'https://www.netacad.com' },
+            { name: 'MonkeyType', url: 'https://monkeytype.com' }
+        ],
+        productivity: [
+            { name: 'Todoist', url: 'https://app.todoist.com/app' },
+            { name: 'Flocus', url: 'https://app.flocus.com/' },
+            { name: 'Firebase Studio', url: 'https://studio.firebase.google.com/' },
+            { name: 'Vercel', url: 'https://vercel.com/' },
+            { name: 'v0 Builder', url: 'https://v0.app/' }
+        ],
+        others: [
+            { name: 'RedHat Topics', url: 'https://www.redhat.com/de/topics' },
+            { name: 'Anthropic RedTeam', url: 'https://red.anthropic.com/' },
+            { name: 'WD MyCloud EX2 Ultra', url: 'http://mycloudex2ultra/' },
+            { name: 'Router', url: 'http://192.168.1.1/' },
+            { name: 'TailScale', url: 'https://login.tailscale.com/admin' },
+            { name: 'ETHZ (CyberSecurity MSc)', url: 'https://ethz.ch/de/studium/master/studienangebot/ingenieurwissenschaften/cyber-security.html' },
+            { name: 'MyJourney', url: 'https://journey.jairomorales.ch/' }
+        ],
+        abbts: [
+            { name: 'ABB-TS | Informatik HF', url: 'https://www.abbts.ch/bildungsangebot/hoehere-fachschule/informatik' },
+            { name: 'Infopoint', url: 'https://abbtsch.sharepoint.com/sites/Infopoint' },
+            { name: 'Betriebswirtschaft verstehen (Capaul)', url: 'https://app.edubase.ch/#doc/57879/1' },
+            { name: 'Rechnungswesen als Führungsinstrument', url: 'C:\\Users\\jairo\\OneDrive - ABB Technikerschule\\1. Semester\\BWL\\RW\\rw-theorie-aufgaben_11A.pdf' },
+            { name: 'ABB-TS Website', url: 'https://www.abbts.ch/' }
+        ],
+        kalaidos: [
+            { name: 'Kalaidos BSc - HFI+', url: 'https://www.kalaidos-fh.ch/de-CH/Studiengaenge/Plus-Bachelor-Informatik-integrativ-mit-HFI' },
+            { name: 'Kalaidos Campus', url: 'https://campus.kalaidos-fh.ch/' },
+            { name: 'Kalaidos OpenOlat', url: 'https://openolat.kalaidos-fh.ch/auth/MyCoursesSite/' },
+            { name: 'Kalaidos Portal', url: 'https://www.kalaidos-fh.ch/' }
+        ]
+    };
+    images = [...defaultImages];
+    saveSettings();
 }
 
 function saveSettings() {
     try {
-        localStorage.setItem('startpageSettings', JSON.stringify({ bookmarks, images }));
+        const SETTINGS_VERSION = '2.0';
+        localStorage.setItem('startpageSettings', JSON.stringify({
+            version: SETTINGS_VERSION,
+            bookmarks,
+            images
+        }));
     } catch (error) {
-        console.error("Fehler beim Speichern der Einstellungen:", error);
+        console.error("Error saving settings:", error);
     }
 }
 
-// Import/Export-Funktionalität
+// Import/export functionality
 window.exportSettings = function() {
     const settings = { bookmarks, images };
     const dataStr = JSON.stringify(settings, null, 2);
@@ -605,8 +627,6 @@ function handleImport(event) {
                 renderBookmarks();
                 renderImageList();
                 renderBookmarksEditor();
-                
-                // Aktuelles Bild nach dem Import aktualisieren
                 updateSeasonalGif();
                 
                 alert('Settings imported successfully!');
@@ -622,31 +642,23 @@ function handleImport(event) {
     event.target.value = '';
 }
 
-// Aktuelle Seite in der Navigation hervorheben
+// Highlight current page in navigation
 function highlightCurrentPage() {
-    // Aktuellen Seitennamen abrufen
     const currentPage = window.location.pathname.split('/').pop();
-    
-    // Alle Navigationslinks abrufen
     const navLinks = document.querySelectorAll('.nav-links a');
-    
-    // Aktive Klasse von allen Links entfernen
+
     navLinks.forEach(link => {
         link.classList.remove('active');
-    });
-    
-    // Aktive Klasse zum aktuellen Seitenlink hinzufügen
-    navLinks.forEach(link => {
         const linkPage = link.getAttribute('href').split('/').pop();
-        if (currentPage === linkPage || 
-            (currentPage === '' && linkPage === 'index.html') || 
+        if (currentPage === linkPage ||
+            (currentPage === '' && linkPage === 'index.html') ||
             (currentPage === 'index.html' && linkPage === 'index.html')) {
             link.classList.add('active');
         }
     });
 }
 
-// Networking-Abschnitt basierend auf den Notizen hinzufügen
+// Add networking section
 function addNetworkingSection() {
     const networkingLinks = [
         { name: 'Networking Homepage', url: 'https://jairomorales.ch/networking' },
@@ -655,7 +667,7 @@ function addNetworkingSection() {
         { name: 'Binary Game', url: './pages/binary-game.html' }
     ];
 
-    // Füge Networking zu den bookmarks hinzu, wenn es noch nicht existiert
+    // Add networking to bookmarks if it doesn't exist
     if (!bookmarks.networking) {
         bookmarks.networking = networkingLinks;
         saveSettings();
@@ -663,24 +675,10 @@ function addNetworkingSection() {
     }
 }
 
-// Funktionen global verfügbar machen
+// Make functions globally available
 window.updateSeasonalGif = updateSeasonalGif;
 window.testSeason = testSeason;
+window.resetToDefaults = resetToDefaults;
 
-// Networking-Sektion hinzufügen, wenn die Seite geladen ist
+// Add networking section on load
 document.addEventListener('DOMContentLoaded', addNetworkingSection);
-
-// Nach kurzer Verzögerung prüfen, ob Lesezeichen geladen wurden
-// und falls nicht, Standard-Lesezeichen direkt in die DOM-Elemente einfügen
-setTimeout(() => {
-    // Prüfe ob einer der Link-Container leer ist
-    Object.keys(bookmarks).forEach(category => {
-        const container = document.getElementById(`${category}-links`);
-        if (container && (!container.innerHTML || container.innerHTML.trim() === '')) {
-            console.warn(`Container für ${category} ist leer, füge Standard-Links ein`);
-            container.innerHTML = bookmarks[category]
-                .map(bookmark => `<a href="${bookmark.url}" target="_blank">${bookmark.name}</a>`)
-                .join('');
-        }
-    });
-}, 1000);

@@ -14,13 +14,13 @@
     <div class="container">
         <div class="main-content">
             <div class="image-section">
-                <img src="./img/gif/japan-chill-sakura2.gif" alt="Aesthetic image" id="mainImage">
-                <div class="season-indicator" id="seasonIndicator">Spring</div>
+                <img src="./img/gif/japan-chill-sakura2.gif" alt="Seasonal image" id="mainImage">
+                <div class="season-indicator" id="seasonIndicator"></div>
             </div>
         
             <div class="content">
                 <div class="time-display">
-                    <div id="datetime" class="datetime">FRIDAY, APR 25, 20:15</div>
+                    <div id="datetime" class="datetime"></div>
                 </div>
                 
                 <div class="terminal-section">
@@ -35,63 +35,37 @@
                     <div class="category">
                         <h3>General</h3>
                         <div class="links" id="general-links">
-                            <!-- Fallback-Links, falls JavaScript nicht lädt -->
-                            <a href="https://chat.openai.com" target="_blank">ChatGPT</a>
-                            <a href="https://claude.ai" target="_blank">Claude</a>
-                            <a href="https://www.reddit.com" target="_blank">Reddit</a>
-                            <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
-                            <a href="https://www.youtube.com" target="_blank">YouTube</a>
-                            <a href="https://mail.google.com" target="_blank">Gmail</a>
-                            <a href="https://drive.proton.me" target="_blank">Proton Drive</a>
+                            <!-- Links loaded by JavaScript -->
                         </div>
                     </div>
                     <div class="category">
                         <h3>Learning</h3>
                         <div class="links" id="learning-links">
-                            <!-- Fallback-Links, falls JavaScript nicht lädt -->
-                            <a href="https://roadmap.sh" target="_blank">Roadmap.sh</a>
-                            <a href="https://github.com" target="_blank">GitHub</a>
-                            <a href="https://www.udemy.com" target="_blank">Udemy</a>
-                            <a href="https://www.w3schools.com" target="_blank">W3Schools</a>
-                            <a href="https://explainshell.com" target="_blank">Explainshell</a>
-                            <a href="https://wiki.archlinux.org" target="_blank">ArchWiki</a>
-                            <a href="https://www.netacad.com" target="_blank">NetAcad</a>
+                            <!-- Links loaded by JavaScript -->
                         </div>
                     </div>
                     <div class="category">
                         <h3>Productivity</h3>
                         <div class="links" id="productivity-links">
-                            <!-- Fallback-Links, falls JavaScript nicht lädt -->
-                            <a href="https://tasksboard.com/app" target="_blank">TasksBoard</a>
-                            <a href="https://app.flocus.com/" target="_blank">Flocus</a>
-                            <a href="https://studio.firebase.google.com/" target="_blank">Firebase Studio</a>
+                            <!-- Links loaded by JavaScript -->
                         </div>
                     </div>
                     <div class="category">
-                        <h3>School</h3>
-                        <div class="links" id="school-links">
-                            <!-- Fallback-Links, falls JavaScript nicht lädt -->
-                            <a href="https://www.bbbaden.ch/" target="_blank">BBBaden</a>
-                            <a href="https://moodle.bbbaden.ch/" target="_blank">Moodle</a>
-                            <a href="https://bbbaden-my.sharepoint.com/" target="_blank">OneDrive (BBBaden)</a>
-                            <a href="https://bbbaden-my.sharepoint.com/:o:/g/personal/daniel_wuest_bbbaden_ch/Ei3c8fUbXC9PqoFVdyMp3VYBFkYXVmg2eo4NEkYZpVkOoA?e=PxdD24" target="_blank">OneNote (BBBaden)</a>
-                            <a href="https://outlook.office.com/mail/" target="_blank">Outlook</a>
-                            <a href="https://monkeytype.com" target="_blank">MonkeyType</a>
-                            <a href="https://drive.proton.me" target="_blank">Proton Drive</a>
+                        <h3>Others</h3>
+                        <div class="links" id="others-links">
+                            <!-- Links loaded by JavaScript -->
                         </div>
                     </div>
                     <div class="category">
                         <h3>ABB-TS</h3>
                         <div class="links" id="abbts-links">
-                            <!-- Fallback-Links, falls JavaScript nicht lädt -->
-                            <a href="https://www.abbts.ch/" target="_blank">ABB-TS Website</a>
+                            <!-- Links loaded by JavaScript -->
                         </div>
                     </div>
                     <div class="category">
                         <h3>Kalaidos</h3>
                         <div class="links" id="kalaidos-links">
-                            <!-- Fallback-Links, falls JavaScript nicht lädt -->
-                            <a href="https://www.kalaidos-fh.ch/" target="_blank">Kalaidos Portal</a>
+                            <!-- Links loaded by JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -140,248 +114,5 @@
 
     <input type="file" id="importInput" style="display: none" accept=".json">
     <script src="./main.js" defer></script>
-    
-    <!-- Direktes Backup-Skript, das Links einfügt, falls sie nach dem Laden fehlen -->
-    <script>
-        // Funktion, die Links anzeigt, falls sie nach dem Laden leer sind
-        document.addEventListener('DOMContentLoaded', function() {
-            // Datum und Uhrzeit setzen, wenn sie nicht von main.js gesetzt werden
-            const dateTimeElement = document.getElementById('datetime');
-            if (dateTimeElement && dateTimeElement.textContent === 'FRIDAY, APR 25, 20:15') {
-                const now = new Date();
-                const options = {
-                    weekday: 'long',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false
-                };
-                dateTimeElement.textContent = now.toLocaleDateString('en-US', options).toUpperCase();
-            }
-            
-            // Prüfe nach einer Sekunde, ob die Links leer sind
-            setTimeout(function() {
-                // Definiere alle Kategorien
-                const categories = ["general", "learning", "productivity", "school", "abbts", "kalaidos"];
-                
-                // Prüfe jede Kategorie
-                categories.forEach(category => {
-                    const container = document.getElementById(`${category}-links`);
-                    if (container && container.children.length === 0) {
-                        console.log(`Links für ${category} wurden nicht geladen, füge Fallback-Links hinzu`);
-                        
-                        // Je nach Kategorie verschiedene Links einfügen
-                        switch(category) {
-                            case "general":
-                                container.innerHTML = `
-                                    <a href="https://chat.openai.com" target="_blank">ChatGPT</a>
-                                    <a href="https://claude.ai" target="_blank">Claude</a>
-                                    <a href="https://www.reddit.com" target="_blank">Reddit</a>
-                                    <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
-                                    <a href="https://www.youtube.com" target="_blank">YouTube</a>
-                                    <a href="https://mail.google.com" target="_blank">Gmail</a>
-                                    <a href="https://drive.proton.me" target="_blank">Proton Drive</a>
-                                `;
-                                break;
-                            case "learning":
-                                container.innerHTML = `
-                                    <a href="https://roadmap.sh" target="_blank">Roadmap.sh</a>
-                                    <a href="https://github.com" target="_blank">GitHub</a>
-                                    <a href="https://www.udemy.com" target="_blank">Udemy</a>
-                                    <a href="https://www.w3schools.com" target="_blank">W3Schools</a>
-                                    <a href="https://explainshell.com" target="_blank">Explainshell</a>
-                                    <a href="https://wiki.archlinux.org" target="_blank">ArchWiki</a>
-                                    <a href="https://www.netacad.com" target="_blank">NetAcad</a>
-                                `;
-                                break;
-                            case "productivity":
-                                container.innerHTML = `
-                                    <a href="https://tasksboard.com/app" target="_blank">TasksBoard</a>
-                                    <a href="https://app.flocus.com/" target="_blank">Flocus</a>
-                                    <a href="https://studio.firebase.google.com/" target="_blank">Firebase Studio</a>
-                                `;
-                                break;
-                            case "school":
-                                container.innerHTML = `
-                                    <a href="https://www.bbbaden.ch/" target="_blank">BBBaden</a>
-                                    <a href="https://moodle.bbbaden.ch/" target="_blank">Moodle</a>
-                                    <a href="https://bbbaden-my.sharepoint.com/" target="_blank">OneDrive (BBBaden)</a>
-                                    <a href="https://bbbaden-my.sharepoint.com/:o:/g/personal/daniel_wuest_bbbaden_ch/Ei3c8fUbXC9PqoFVdyMp3VYBFkYXVmg2eo4NEkYZpVkOoA?e=PxdD24" target="_blank">OneNote (BBBaden)</a>
-                                    <a href="https://outlook.office.com/mail/" target="_blank">Outlook</a>
-                                    <a href="https://monkeytype.com" target="_blank">MonkeyType</a>
-                                    <a href="https://drive.proton.me" target="_blank">Proton Drive</a>
-                                `;
-                                break;
-                            case "abbts":
-                                container.innerHTML = `
-                                    <a href="https://www.abbts.ch/" target="_blank">ABB-TS Website</a>
-                                `;
-                                break;
-                            case "kalaidos":
-                                container.innerHTML = `
-                                    <a href="https://www.kalaidos-fh.ch/" target="_blank">Kalaidos Portal</a>
-                                `;
-                                break;
-                        }
-                    }
-                });
-            }, 2000);
-        });
-    </script>
-    <!-- Füge dieses Script-Tag direkt vor dem schließenden </body>-Tag in deiner index.html ein -->
-<script>
-    // Direktes Inline-Skript für die Terminal-Suche
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log("Inline-Skript für Terminal-Funktionalität wird ausgeführt");
-        
-        const terminalInput = document.getElementById('terminalInput');
-        const suggestions = document.getElementById('suggestions');
-        
-        if (!terminalInput || !suggestions) {
-            console.error("Terminal-Elemente nicht gefunden!");
-            return;
-        }
-        
-        // Input-Event-Listener für Live-Suche
-        terminalInput.addEventListener('input', function(e) {
-            const query = terminalInput.value.toLowerCase();
-            
-            if (!query) {
-                suggestions.style.display = 'none';
-                return;
-            }
-            
-            // Such-Aliase überprüfen
-            const searchAliases = {
-                'g ': 'https://www.google.com/search?q=',
-                'd ': 'https://duckduckgo.com/?q=',
-                'gh ': 'https://github.com/search?q=',
-                's ': 'https://stackoverflow.com/search?q=',
-                'r ': 'https://www.reddit.com/search/?q=',
-                'w ': 'https://en.wikipedia.org/wiki/Special:Search?search='
-            };
-            
-            // Prüfen ob die Anfrage mit einem Such-Alias beginnt
-            for (const [prefix, searchUrl] of Object.entries(searchAliases)) {
-                if (query.startsWith(prefix)) {
-                    const searchTerm = query.substring(prefix.length);
-                    if (searchTerm) {
-                        suggestions.innerHTML = `<div class="suggestion search-suggestion" data-url="${searchUrl}${encodeURIComponent(searchTerm)}">
-                            Search ${getSearchEngineName(prefix)}: ${searchTerm}
-                        </div>`;
-                        suggestions.style.display = 'block';
-                        
-                        const searchSuggestion = suggestions.querySelector('.search-suggestion');
-                        if (searchSuggestion) {
-                            searchSuggestion.addEventListener('click', function(e) {
-                                e.stopPropagation();
-                                window.open(searchSuggestion.dataset.url, '_blank');
-                                terminalInput.value = '';
-                                suggestions.style.display = 'none';
-                            });
-                        }
-                        return;
-                    }
-                }
-            }
-            
-            // Lesezeichen durchsuchen, wenn kein Such-Alias verwendet wird
-            let matches = [];
-            
-            // Hole alle Lesezeichen aus den Link-Containern
-            const linkContainers = document.querySelectorAll('.links');
-            linkContainers.forEach(container => {
-                const links = container.querySelectorAll('a');
-                links.forEach(link => {
-                    if (link.textContent.toLowerCase().includes(query) || 
-                        link.href.toLowerCase().includes(query)) {
-                        matches.push({
-                            name: link.textContent,
-                            url: link.href
-                        });
-                    }
-                });
-            });
-            
-            if (matches.length > 0) {
-                suggestions.innerHTML = matches
-                    .map(match => `<div class="suggestion" data-url="${match.url}">${match.name}</div>`)
-                    .join('');
-                suggestions.style.display = 'block';
-                
-                const suggestionElements = suggestions.querySelectorAll('.suggestion');
-                suggestionElements.forEach(element => {
-                    element.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        window.open(element.dataset.url, '_blank');
-                        terminalInput.value = '';
-                        suggestions.style.display = 'none';
-                    });
-                });
-            } else {
-                suggestions.style.display = 'none';
-            }
-        });
-        
-        // Keydown-Event-Listener für Enter-Taste
-        terminalInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                const query = terminalInput.value.toLowerCase();
-                
-                // Such-Aliase überprüfen
-                const searchAliases = {
-                    'g ': 'https://www.google.com/search?q=',
-                    'd ': 'https://duckduckgo.com/?q=',
-                    'gh ': 'https://github.com/search?q=',
-                    's ': 'https://stackoverflow.com/search?q=',
-                    'r ': 'https://www.reddit.com/search/?q=',
-                    'w ': 'https://en.wikipedia.org/wiki/Special:Search?search='
-                };
-                
-                // Prüfen ob die Anfrage mit einem Such-Alias beginnt
-                for (const [prefix, searchUrl] of Object.entries(searchAliases)) {
-                    if (query.startsWith(prefix)) {
-                        const searchTerm = query.substring(prefix.length);
-                        if (searchTerm) {
-                            window.open(searchUrl + encodeURIComponent(searchTerm), '_blank');
-                            terminalInput.value = '';
-                            suggestions.style.display = 'none';
-                            return;
-                        }
-                    }
-                }
-                
-                // Wenn kein Such-Alias oder wenn Vorschläge angezeigt werden, den ersten Vorschlag verwenden
-                if (suggestions.style.display === 'block') {
-                    const firstSuggestion = suggestions.querySelector('.suggestion');
-                    if (firstSuggestion) {
-                        window.open(firstSuggestion.dataset.url, '_blank');
-                        terminalInput.value = '';
-                        suggestions.style.display = 'none';
-                    }
-                }
-            }
-        });
-        
-        // Klick außerhalb des Terminals schließt Vorschläge
-        document.addEventListener('click', function() {
-            suggestions.style.display = 'none';
-        });
-        
-        // Hilfsfunktion für Suchmaschinen-Namen
-        function getSearchEngineName(prefix) {
-            switch(prefix.trim()) {
-                case 'g': return 'Google';
-                case 'd': return 'DuckDuckGo';
-                case 'gh': return 'GitHub';
-                case 's': return 'Stack Overflow';
-                case 'r': return 'Reddit';
-                case 'w': return 'Wikipedia';
-                default: return 'Search';
-            }
-        }
-    });
-</script>
 </body>
 </html>
