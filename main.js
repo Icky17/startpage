@@ -31,19 +31,31 @@ let bookmarks = {
         { name: 'Todoist', url: 'https://app.todoist.com/app' },
         { name: 'Flocus', url: 'https://app.flocus.com/' },
         { name: 'Firebase Studio', url: 'https://studio.firebase.google.com/' },
+        { name: 'Vercel', url: 'https://vercel.com/' },
+        { name: 'v0 Builder', url: 'https://v0.app/' },
+        { name: 'Teams', url: 'https://teams.microsoft.com/v2/' },
+        { name: 'Outlook', url: 'https://outlook.office.com/mail/' }
     ],
     others: [
-        { name: 'BBBaden', url: 'https://www.bbbaden.ch/' },
-        { name: 'Moodle', url: 'https://moodle.bbbaden.ch/' },
-        { name: 'OneDrive (BBBaden)', url: 'https://bbbaden-my.sharepoint.com/' },
-        { name: 'OneNote (BBBaden)', url: 'https://bbbaden-my.sharepoint.com/:o:/g/personal/daniel_wuest_bbbaden_ch/Ei3c8fUbXC9PqoFVdyMp3VYBFkYXVmg2eo4NEkYZpVkOoA?e=PxdD24' },
-        { name: 'Outlook', url: 'https://outlook.office.com/mail/' },
-        { name: 'Proton Drive', url: 'https://drive.proton.me' }
+        { name: 'RedHat Topics', url: 'https://www.redhat.com/de/topics' },
+        { name: 'Anthropic RedTeam', url: 'https://red.anthropic.com/' },
+        { name: 'WD MyCloud EX2 Ultra', url: 'http://mycloudex2ultra/' },
+        { name: 'Router', url: 'http://192.168.1.1/' },
+        { name: 'TailScale', url: 'https://login.tailscale.com/admin' },
+        { name: 'ETHZ (CyberSecurity MSc)', url: 'https://ethz.ch/de/studium/master/studienangebot/ingenieurwissenschaften/cyber-security.html' },
+        { name: 'MyJourney', url: 'https://journey.jairomorales.ch/' }
     ],
     abbts: [
+        { name: 'ABB-TS | Informatik HF', url: 'https://www.abbts.ch/bildungsangebot/hoehere-fachschule/informatik' },
+        { name: 'Infopoint', url: 'https://abbtsch.sharepoint.com/sites/Infopoint' },
+        { name: 'Betriebswirtschaft verstehen (Capaul)', url: 'https://app.edubase.ch/#doc/57879/1' },
+        { name: 'Rechnungswesen als Führungsinstrument', url: 'C:\\Users\\jairo\\OneDrive - ABB Technikerschule\\1. Semester\\BWL\\RW\\rw-theorie-aufgaben_11A.pdf' },
         { name: 'ABB-TS Website', url: 'https://www.abbts.ch/' }
     ],
     kalaidos: [
+        { name: 'Kalaidos BSc - HFI+', url: 'https://www.kalaidos-fh.ch/de-CH/Studiengaenge/Plus-Bachelor-Informatik-integrativ-mit-HFI' },
+        { name: 'Kalaidos Campus', url: 'https://campus.kalaidos-fh.ch/' },
+        { name: 'Kalaidos OpenOlat', url: 'https://openolat.kalaidos-fh.ch/auth/MyCoursesSite/' },
         { name: 'Kalaidos Portal', url: 'https://www.kalaidos-fh.ch/' }
     ]
 };
@@ -587,7 +599,9 @@ function resetToDefaults() {
             { name: 'Flocus', url: 'https://app.flocus.com/' },
             { name: 'Firebase Studio', url: 'https://studio.firebase.google.com/' },
             { name: 'Vercel', url: 'https://vercel.com/' },
-            { name: 'v0 Builder', url: 'https://v0.app/' }
+            { name: 'v0 Builder', url: 'https://v0.app/' },
+            { name: 'Teams', url: 'https://teams.microsoft.com/v2/' },
+            { name: 'Outlook', url: 'https://outlook.office.com/mail/' }
         ],
         others: [
             { name: 'RedHat Topics', url: 'https://www.redhat.com/de/topics' },
