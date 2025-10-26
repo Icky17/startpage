@@ -1,3 +1,9 @@
+// Import seasonal images for Vite bundling
+import springImage from './img/gif/japan-chill-sakura2.gif';
+import summerImage from './img/gif/japan-chill-summer.webp';
+import autumnImage from './img/gif/japan-chill-autumn.gif';
+import winterImage from './img/gif/japan-chill-winter.gif';
+
 // Initial bookmarks and images data
 let images = [];
 let bookmarks = {
@@ -44,18 +50,20 @@ let bookmarks = {
 
 // Default image paths if none exist in LocalStorage
 const defaultImages = [
-    "./img/gif/japan-chill-sakura2.gif",
-    "./img/gif/japan-chill-summer.webp",
-    "./img/gif/japan-chill-autumn.gif",
-    "./img/gif/japan-chill-winter.gif"
+    springImage,
+    summerImage,
+    autumnImage,
+    winterImage
 ];
 
 // Cache DOM elements
 let settingsBtn, settingsPanel, overlay, closeBtn, mainImage, importInput, terminalInput,
     suggestions, dateTimeElement, seasonIndicator;
 
-// DOM ready event listener
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize DOM elements and start application
+function initializeApp() {
+    console.log('initializeApp() called');
+
     // Initialize DOM elements
     settingsBtn = document.getElementById('settingsBtn');
     settingsPanel = document.getElementById('settingsPanel');
@@ -68,6 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
     dateTimeElement = document.getElementById('datetime');
     seasonIndicator = document.getElementById('seasonIndicator');
 
+    // Verify critical elements exist
+    if (!mainImage) console.error('mainImage element not found!');
+    if (!dateTimeElement) console.error('datetime element not found!');
+    if (!seasonIndicator) console.error('seasonIndicator element not found!');
+
     // Add event listeners
     if (mainImage) mainImage.addEventListener('error', handleImageError);
     if (settingsBtn) settingsBtn.addEventListener('click', openSettings);
@@ -78,11 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize application
     init();
     setupTerminal();
-});
+}
+
+// DOM ready event listener with fallback
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+    // DOM already loaded
+    initializeApp();
+}
 
 // Initialize page
 function init() {
+    console.log('Initializing startpage...');
+
     loadSettings();
+    addNetworkingSection();
     renderBookmarks();
     updateDateTime();
     setInterval(updateDateTime, 1000);
@@ -95,6 +119,8 @@ function init() {
 
     updateSeasonalGif();
     highlightCurrentPage();
+
+    console.log('Startpage initialization complete');
 }
 
 // Handle image loading errors
@@ -132,12 +158,18 @@ function closeSettings() {
 
 // Bookmark management
 function renderBookmarks() {
+    console.log('Rendering bookmarks for categories:', Object.keys(bookmarks));
+
     Object.keys(bookmarks).forEach(category => {
         const container = document.getElementById(`${category}-links`);
         if (container) {
-            container.innerHTML = bookmarks[category]
+            const links = bookmarks[category]
                 .map(bookmark => `<a href="${bookmark.url}" target="_blank">${bookmark.name}</a>`)
                 .join('');
+            container.innerHTML = links;
+            console.log(`Rendered ${bookmarks[category].length} links for ${category}`);
+        } else {
+            console.warn(`Container not found for category: ${category}`);
         }
     });
 }
@@ -405,19 +437,19 @@ function updateSeasonalGif() {
     if (month === 2 || month === 3 || month === 4) {
         // Spring: March (2), April (3), May (4)
         season = "Spring";
-        gifPath = "./img/gif/japan-chill-sakura2.gif";
+        gifPath = springImage;
     } else if (month === 5 || month === 6 || month === 7) {
         // Summer: June (5), July (6), August (7)
         season = "Summer";
-        gifPath = "./img/gif/japan-chill-summer.webp";
+        gifPath = summerImage;
     } else if (month === 8 || month === 9 || month === 10) {
         // Fall: September (8), October (9), November (10)
         season = "Fall";
-        gifPath = "./img/gif/japan-chill-autumn.gif";
+        gifPath = autumnImage;
     } else {
         // Winter: December (11), January (0), February (1)
         season = "Winter";
-        gifPath = "./img/gif/japan-chill-winter.gif";
+        gifPath = winterImage;
     }
 
     console.log(`Detected season: ${season} (month: ${month}, day: ${day})`);
@@ -453,17 +485,17 @@ function testSeason(seasonName) {
     // Set GIF based on season name
     switch(seasonName.toLowerCase()) {
         case 'spring':
-            gifPath = "./img/gif/japan-chill-sakura2.gif";
+            gifPath = springImage;
             break;
         case 'summer':
-            gifPath = "./img/gif/japan-chill-summer.webp";
+            gifPath = summerImage;
             break;
         case 'fall':
         case 'autumn':
-            gifPath = "./img/gif/japan-chill-autumn.gif";
+            gifPath = autumnImage;
             break;
         case 'winter':
-            gifPath = "./img/gif/japan-chill-winter.gif";
+            gifPath = winterImage;
             break;
         default:
             console.error('Invalid season name. Use: spring, summer, fall/autumn, or winter');
@@ -493,7 +525,7 @@ function testSeason(seasonName) {
 function loadSettings() {
     try {
         const savedSettings = localStorage.getItem('startpageSettings');
-        const SETTINGS_VERSION = '2.0'; // Increment this to force reset
+        const SETTINGS_VERSION = '2.1'; // Increment this to force reset
 
         if (savedSettings) {
             const settings = JSON.parse(savedSettings);
@@ -586,7 +618,7 @@ function resetToDefaults() {
 
 function saveSettings() {
     try {
-        const SETTINGS_VERSION = '2.0';
+        const SETTINGS_VERSION = '2.1';
         localStorage.setItem('startpageSettings', JSON.stringify({
             version: SETTINGS_VERSION,
             bookmarks,
@@ -679,6 +711,3 @@ function addNetworkingSection() {
 window.updateSeasonalGif = updateSeasonalGif;
 window.testSeason = testSeason;
 window.resetToDefaults = resetToDefaults;
-
-// Add networking section on load
-document.addEventListener('DOMContentLoaded', addNetworkingSection);
