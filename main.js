@@ -42,7 +42,7 @@ let bookmarks = {
         { name: 'WD MyCloud EX2 Ultra', url: 'http://mycloudex2ultra/' },
         { name: 'Router', url: 'http://192.168.1.1/' },
         { name: 'TailScale', url: 'https://login.tailscale.com/admin' },
-        { name: 'ETHZ (CyberSecurity MSc)', url: 'https://ethz.ch/de/studium/master/studienangebot/ingenieurwissenschaften/cyber-security.html' },
+        { name: 'ZHAW (MSE CyberSecurity)', url: 'https://www.zhaw.ch/de/engineering/studium/masterstudium/information-and-cyber-security' },
         { name: 'MyJourney', url: 'https://journey.jairomorales.ch/' }
     ],
     abbts: [
